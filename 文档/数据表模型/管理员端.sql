@@ -135,3 +135,94 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-09-10 19:12:28
+
+/*
+ Date: 12/09/2019 13:18:40
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for competitor_db
+-- ----------------------------
+DROP TABLE IF EXISTS `competitor_db`;
+CREATE TABLE `competitor_db`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '数据项id',
+  `match_id` int(11) NOT NULL COMMENT '比赛id',
+  `wxid` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '微信id',
+  `balance` double NOT NULL COMMENT '余额',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- ----------------------------
+-- Table structure for order_db
+-- ----------------------------
+DROP TABLE IF EXISTS `order_db`;
+CREATE TABLE `order_db`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '数据项id',
+  `order_type` int(11) NOT NULL COMMENT '订单类型，1 买入，2 售出',
+  `wxid` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '微信id',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `order_status` int(11) NOT NULL COMMENT '订单状态, 1 进行中、2 完成、3 撤销',
+  `stock_id` int(11) NOT NULL COMMENT '股票id',
+  `order_num` int(11) NOT NULL COMMENT '数量',
+  `price` int(11) NOT NULL COMMENT '价格',
+  `match_id` int(11) NOT NULL COMMENT '比赛id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- ----------------------------
+-- Table structure for stock_cache
+-- ----------------------------
+DROP TABLE IF EXISTS `stock_cache`;
+CREATE TABLE `stock_cache`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '数据项id',
+  `stock_id` int(11) NOT NULL COMMENT '股票id',
+  `stock_price` double NOT NULL COMMENT '股票单价',
+  `get_time` int(11) NOT NULL COMMENT '获取时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- ----------------------------
+-- Table structure for storage_db
+-- ----------------------------
+DROP TABLE IF EXISTS `storage_db`;
+CREATE TABLE `storage_db`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '数据项id',
+  `wxid` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '微信id',
+  `match_id` int(11) NOT NULL COMMENT '比赛id',
+  `stock_id` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '股票id',
+  `own_num` int(11) NOT NULL COMMENT '持仓数量',
+  `ave_price` double NOT NULL COMMENT '买入价格',
+  `lock_num` int(11) NOT NULL COMMENT '冻结数量',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- ----------------------------
+-- Table structure for user_db
+-- ----------------------------
+DROP TABLE IF EXISTS `user_db`;
+CREATE TABLE `user_db`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '数据项id',
+  `wxid` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '微信id',
+  `heading` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '头像',
+  `regist_time` int(11) NOT NULL COMMENT '注册时间',
+  `token` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'token',
+  `nickName` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+SET FOREIGN_KEY_CHECKS = 1;
