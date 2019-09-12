@@ -32,7 +32,7 @@ public class BlackListController {
             blackListService.deleteBlackListById(id);
             return new JsonResult(200,"ok",null);
         }else{
-            return new JsonResult(400,"该用户不存在",blackList);
+            return new JsonResult(400,"该用户不存在",null);
         }
     }
 

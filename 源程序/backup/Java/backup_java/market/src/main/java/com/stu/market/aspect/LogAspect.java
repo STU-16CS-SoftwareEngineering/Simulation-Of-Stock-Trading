@@ -23,13 +23,18 @@ public class LogAspect {
     @Before(value = "execution(* com.stu.market.controller.*Controller.*(..))")
     public void beforeMethod(JoinPoint joinPoint) {
         Log log=new Log();
+        StringBuilder sb = new StringBuilder();
         log.setOpType(joinPoint.getSignature().getName());
         log.setOpTime(System.currentTimeMillis() / 1000);
-        StringBuilder sb = new StringBuilder();
-        for (Object arg : joinPoint.getArgs()) {
-            sb.append("arg:" + arg.toString() + " | ");
+        if (!"login".equals(joinPoint.getSignature().getName())){
+            for (Object arg : joinPoint.getArgs()) {
+                sb.append("arg:" + arg.toString() + " | ");
+            }
+            log.setOpDetail(sb.toString());
         }
-        log.setOpDetail(sb.toString());
+        else{
+            log.setOpDetail(null);
+        }
         logger.info(joinPoint.getSignature().getName()+" "+sb.toString());
         logDao.addLog(log);
     }
