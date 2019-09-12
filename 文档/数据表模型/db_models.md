@@ -30,7 +30,7 @@
 |1|id|数据项id|int(11)|主键，自动递增，不能为空|
 |2|account|账号|text|不能为空|
 |3|password|密码|text|不能为空|
-||salt|盐|text|不能为空|
+|4|salt|盐|text|不能为空|
 
 
 --
