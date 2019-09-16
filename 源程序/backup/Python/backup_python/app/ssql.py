@@ -8,7 +8,7 @@ import mysql.connector
 class SQLink:
     db = None
     # db_host = '106.14.197.175'
-    db_host = 'localhost'
+    db_host = '127.0.0.1'
     db_user = 'root'
     db_passed = 'root'
     db_name = "market"
