@@ -1,8 +1,10 @@
 #! usr/bin/python3
 # -*- coding: utf-8 -*-
 
+
 import requests
 import re
+
 
 def getStockDM(stockID):
     # 获取股票是sh还是sz
@@ -16,7 +18,7 @@ def getStockDM(stockID):
         return dm
 
 
-def getStockInfo(stockID,**kw):
+def getStockInfo(stockID, **kw):
     """
     传入(股票id，[可选] sh、sz)
     返回一个tuple，('大秦铁路', '7.970', '7.980'....)

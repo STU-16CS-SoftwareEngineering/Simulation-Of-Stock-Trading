@@ -7,10 +7,10 @@ import mysql.connector
 
 class SQLink:
     db = None
-    db_host = '119.23.36.18'
-    db_user = 'test_market'
-    db_passed = 'GrZFWfSh4GTMRBFy'
-    db_name = "test_market"
+    db_host = '106.14.197.175'
+    db_user = 'root'
+    db_passed = 'root'
+    db_name = "market"
 
     """初始化，返回连接id"""
     def __init__(self):

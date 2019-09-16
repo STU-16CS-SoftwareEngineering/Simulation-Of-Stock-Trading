@@ -12,6 +12,7 @@ from flask import request
 from app import ssql
 import requests
 
+
 def dueR(r, v):  # 将字典r的value项改成v的值，并且转成json
     r['value'] = v
     return jsonify(r)

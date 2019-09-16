@@ -12,8 +12,9 @@ from app import judge
 
 judge.star_judeg()
 
-@app.route('/')
-@app.route('/index')
+
+@app.route('/', methods=['GET'])
+@app.route('/index', methods=['GET'])
 def action_index():
     user = {'username': 'visitor'}
     posts = [
@@ -220,7 +221,6 @@ def to_do(ac):
         else:
             r = getaction.getUserOrder(mydb, token,ordertype,startTime,endTime,orderstatus)
             return r
-
 
     # elif ac == 'getUserOrder':
     #     #查询该用户的所有状态的订单
