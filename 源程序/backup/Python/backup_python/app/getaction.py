@@ -157,7 +157,7 @@ def regist(mydb, user, password, heading, nick):
     return jsonify(r)
 
 
-def buyOrder(mydb, token, *, matchID, stockID, buyNum, stockPrice):
+def buyOrder(mydb, token, matchID, stockID, buyNum, stockPrice):
     r = {
         'value': 0
     }
@@ -191,7 +191,7 @@ def buyOrder(mydb, token, *, matchID, stockID, buyNum, stockPrice):
    
 
 
-def sellOrder(mydb, token, *, matchID, stockID, sellNum, stockPrice):
+def sellOrder(mydb, token, matchID, stockID, sellNum, stockPrice):
     r = {
         'value': 0
     }
