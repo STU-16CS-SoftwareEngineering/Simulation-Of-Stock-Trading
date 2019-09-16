@@ -37,7 +37,7 @@ def to_do(ac):
     if ac == 'top':
         r = getaction.topstock()
         return r
-    elif ac == 'login':
+    elif ac == 'userlogin':
         # 登录
         try:
             user = request.form['user']  # wxid
