@@ -26,7 +26,6 @@
 </template>
 <script>
 import header from "@/components/Header";
-import axios from "axios";
 import Qs from "qs";
 export default {
   name: "MatchDetail",
@@ -50,12 +49,11 @@ export default {
   mounted() {
     let matchName = this.$route.query.match_name;
     let url = `/getMatch?match_name=${matchName}`;
-    axios
+    this.axios
       .get(url)
       .then(res => {
         if (res.data.status == 200) {
           this.matchInfo = res.data.data;
-          console.log(this.matchInfo);
         } else {
           this.$message(res.data.msg);
         }
@@ -78,7 +76,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          axios({
+          this.axios({
             method: "post",
             url: "/deleteMatch",
             data: Qs.stringify({

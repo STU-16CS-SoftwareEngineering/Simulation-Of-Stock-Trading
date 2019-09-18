@@ -13,7 +13,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 export default {
   name: "Header",
   computed: {
@@ -26,7 +25,7 @@ export default {
   },
   methods: {
     logout() {
-      axios
+      this.axios
         .get("logout", {
           withCredentials: true
         })
@@ -47,7 +46,7 @@ export default {
         });
     },
     getAccount() {
-      axios
+      this.axios
         .get("/getAccount", {
           withCredentials: true
         })

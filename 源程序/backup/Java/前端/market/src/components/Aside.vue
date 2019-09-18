@@ -59,7 +59,7 @@ export default {
           url="/addBlacklist"
         }
       }
-      console.log(url);
+      //console.log(url);
       this.$router.push({ path: url });
     }
   }

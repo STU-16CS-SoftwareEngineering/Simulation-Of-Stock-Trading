@@ -40,7 +40,6 @@
 <script>
 import header from "@/components/Header";
 import aside from "@/components/Aside";
-import axios from "axios";
 export default {
   name: "wxUser",
   components: {
@@ -72,7 +71,7 @@ export default {
       } else if (type == "right") {
         this.page++;
         let url = `/getAllBlackList?page=${this.page}`;
-        axios
+        this.axios
           .get(url)
           .then(res => {
             if (res.data.status == 200) {
@@ -93,7 +92,7 @@ export default {
     },
     getData() {
       let url = `/wxUser?page=${this.page}`;
-      axios
+      this.axios
         .get(url)
         .then(res => {
           if (res.data.status == 200) {

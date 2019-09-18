@@ -35,7 +35,6 @@
 <script>
 import header from "@/components/Header";
 import aside from "@/components/Aside";
-import axios from "axios";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "@ckeditor/ckeditor5-build-classic/build/translations/zh-cn";
 export default {
@@ -82,7 +81,7 @@ export default {
       this.matchInfo.start_time = (Date.parse(this.timeVal[0])/1000).toString();
       this.matchInfo.end_time = (Date.parse(this.timeVal[1])/1000).toString();
       this.matchInfo.sign_time = (Date.parse(new Date())/1000).toString();
-      axios.post("/addMatch", this.matchInfo).then(res => {
+      this.axios.post("/addMatch", this.matchInfo).then(res => {
         if (res.data.status == 200) {
           this.$alert(res.data.msg, "提示", {
             confirmButtonText: "确定",

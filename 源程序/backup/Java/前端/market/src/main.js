@@ -9,9 +9,12 @@ import 'normalize.css'
 import Vuex from 'vuex'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 Vue.use( CKEditor );
+import axios from "axios";
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+axios.defaults.baseURL = 'http://localhost:8081/'
+Vue.prototype.axios = axios
 
 Vue.use(Vuex)
 const store = new Vuex.Store({

@@ -22,7 +22,6 @@
 <script>
 import header from "@/components/Header";
 import aside from "@/components/Aside";
-import axios from "axios";
 export default {
   name: "AddMatch",
   components: {
@@ -42,7 +41,7 @@ export default {
     onSubmit() {
         // 注意秒级时间戳
       this.blackListInfo.op_time = (Date.parse(new Date())/1000).toString();
-      axios.post("/addBlackList", this.blackListInfo).then(res => {
+      this.axios.post("/addBlackList", this.blackListInfo).then(res => {
         if (res.data.status == 200) {
           this.$alert(res.data.msg, "提示", {
             confirmButtonText: "确定",

@@ -13,6 +13,7 @@ import wxUser from '@/views/User/UserList'
 Vue.use(Router)
 
 export default new Router({
+  mode:'history',
   routes: [
     {
       path: '/',

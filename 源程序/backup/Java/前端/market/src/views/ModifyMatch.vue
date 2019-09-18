@@ -35,7 +35,6 @@
 <script>
 import header from "@/components/Header";
 import aside from "@/components/Aside";
-import axios from "axios";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "@ckeditor/ckeditor5-build-classic/build/translations/zh-cn";
 export default {
@@ -79,7 +78,7 @@ export default {
   mounted() {
     let matchName = this.$route.query.match_name;
     let url = `/getMatch?match_name=${matchName}`;
-    axios
+    this.axios
       .get(url)
       .then(res => {
         if (res.data.status == 200) {
@@ -95,7 +94,6 @@ export default {
           this.timeVal = [];
           this.timeVal.push(new Date(this.matchInfo.start_time*1000));
           this.timeVal.push(new Date(this.matchInfo.end_time*1000));
-          console.log(this.timeVal);
         } else {
           this.$message(res.data.msg);
         }
@@ -112,7 +110,7 @@ export default {
       ).toString();
       this.matchInfo.end_time = (Date.parse(this.timeVal[1]) / 1000).toString();
       this.matchInfo.sign_time = (Date.parse(new Date()) / 1000).toString();
-      axios
+      this.axios
         .post("/updateMatch", this.matchInfo)
         .then(res => {
           if (res.data.status == 200) {

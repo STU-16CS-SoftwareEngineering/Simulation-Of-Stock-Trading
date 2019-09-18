@@ -45,7 +45,6 @@
 <script>
 import header from "@/components/Header";
 import aside from "@/components/Aside";
-import axios from "axios";
 import Qs from "qs";
 export default {
   name: "Main",
@@ -64,14 +63,13 @@ export default {
   },
   methods: {
     removeUser(index, id) {
-      console.log(arguments);
       this.$confirm("此操作将把该用户移出黑名单, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          axios({
+          this.axios({
             method: "post",
             url: "/deleteBlackList",
             data: Qs.stringify({
@@ -94,7 +92,7 @@ export default {
             });
         })
         .catch((err) => {
-            console.log(err.message);
+            //console.log(err.message);
           this.$message({
             type: "info",
             message: "已取消删除"
@@ -116,7 +114,7 @@ export default {
       } else if (type == "right") {
         this.page++;
         let url = `/getAllBlackList?page=${this.page}`;
-        axios
+        this.axios
           .get(url)
           .then(res => {
             if (res.data.status == 200) {
@@ -137,7 +135,7 @@ export default {
     },
     getData() {
       let url = `/getAllBlackList?page=${this.page}`;
-      axios
+      this.axios
         .get(url)
         .then(res => {
           if (res.data.status == 200) {

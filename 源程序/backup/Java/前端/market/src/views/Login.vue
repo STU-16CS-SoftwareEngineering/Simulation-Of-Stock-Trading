@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Qs from "qs";
 export default {
   name: "Login",
@@ -21,17 +20,19 @@ export default {
     };
   },
   mounted() {
-    axios.get("/getAccount",{
-      withCredentials:true
-    }).then(res => {
-      console.log(res);
-      if (res.data.status == 200) {
-        this.$store.commit("updateUserName",res.data.data.account);
-        this.$router.push({ path: "/match" });
-      }
-    }).catch((err)=>{
-      this.$message(err.message);
-    });
+    this.axios
+      .get("/getAccount", {
+        withCredentials: true
+      })
+      .then(res => {
+        if (res.data.status == 200) {
+          this.$store.commit("updateUserName", res.data.data.account);
+          this.$router.push({ path: "/match" });
+        }
+      })
+      .catch(err => {
+        this.$message(err.message);
+      });
   },
   methods: {
     login() {
@@ -39,22 +40,24 @@ export default {
         account: this.username,
         password: this.password
       };
-      axios({
+      this.axios({
         method: "post",
         url: "/login",
         data: Qs.stringify(params)
       }).then(res => {
-        if (!String(res.data).includes("错误")) {
-          this.$message({
-            message: "登陆成功!",
-            type: "success"
-          });
-          this.$store.commit("updateUserName",this.username); // 存储用户名
-          this.$router.push({ path: "/match" });
-        } else {
-          this.$alert("账户或密码错误", "提示", {
-            confirmButtonText: "确定"
-          });
+        if (res.data.status == 200) {
+          if (res.data.msg.includes("登录成功")) {
+            this.$message({
+              message: "登录成功!",
+              type: "success"
+            });
+            this.$store.commit("updateUserName", this.username); // 存储用户名
+            this.$router.push({ path: "/match" });
+          } else {
+            this.$alert(res.data.msg, "提示", {
+              confirmButtonText: "确定"
+            });
+          }
         }
       });
     }
