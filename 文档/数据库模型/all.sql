@@ -226,3 +226,18 @@ CREATE TABLE `user_db`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Table structure for news_db
+-- ----------------------------
+
+CREATE TABLE `news_db` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` text,
+  `content` text,
+  `lv` int(11) DEFAULT NULL,
+  `source` varchar(255) DEFAULT NULL,
+  `newstype` varchar(255) DEFAULT NULL,
+  `sendtime` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

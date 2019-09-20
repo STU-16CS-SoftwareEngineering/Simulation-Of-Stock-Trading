@@ -222,6 +222,19 @@ def to_do(ac):
             r = getaction.getUserOrder(mydb, token,ordertype,startTime,endTime,orderstatus)
             return r
 
+    elif ac == 'getNews':
+         # 获取股票新闻
+        page = 0
+        try:
+            token = request.form['token']  # token
+            if "page" in request.form:
+                page = int(request.form['page'])
+        except:
+            pass
+        else:
+            r = getaction.getStockNews(mydb, token, page)
+            return r
+
     # elif ac == 'getUserOrder':
     #     #查询该用户的所有状态的订单
     #     token = request.form['token']# token

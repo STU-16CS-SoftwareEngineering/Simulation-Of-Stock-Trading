@@ -701,3 +701,41 @@ def getUserOrder(mydb, token,ordertype,startTime,endTime,orderstatus):
     r['orderInfo']=finalList
 
     return dueR(r, 1)
+
+# 用户查询新闻
+def getStockNews(mydb,token, page):
+    r = {
+        'value': 0
+    }
+    # 1： 正常、 -1：token错误、 101：数据库链接错误
+    # mydb = con()
+    if mydb == None:
+        return dueR(r, -101)
+    user = checkTOKEN(token, mydb)
+    if user == None:
+        return dueR(r, -1)
+    
+    if page == 0:
+        page = 1
+
+    try:
+        mycursor = mydb.cursor()
+        sql = "SELECT * FROM news_db limit %s,%s"
+        val = ((page-1)*20, 20, )
+        mycursor.execute(sql, val)
+        myresult = mycursor.fetchall()
+        if myresult == []:
+            return dueR(r, -4)
+        newsInfo = []
+        for x in myresult:
+            tmp = {'title': x[1], 'content': x[2],'lv': x[3], 'source': x[4],'type': x[5], 'time': x[6]}
+            newsInfo.append(tmp)
+        
+        r['value'] = 1
+        r['news'] = newsInfo
+        return dueR(r, 1)
+    except:
+        return dueR(r, -102)
+        
+
+    
