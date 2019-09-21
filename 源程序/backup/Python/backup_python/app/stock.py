@@ -63,5 +63,3 @@ def getStockInfo(stockID, **kw):
         stockData = matchObj.groups()
         return stockData
     return None
-
-

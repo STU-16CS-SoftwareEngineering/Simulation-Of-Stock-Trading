@@ -30,7 +30,7 @@ def checkTOKEN(token, mydb):  # in：token,mydb out：wxid for：检测出token�
         mycursor = mydb.cursor()
         mycursor.execute("SELECT wxid FROM user_db WHERE token = %s", (token,))
         myresult = mycursor.fetchone()
-        #mycursor.close()
+        # mycursor.close()
         # print(myresult)
     except:
         return None
@@ -83,7 +83,7 @@ def userlogin(mydb, user, password):
             return dueR(r, -2)
         if myresult[0] > 0:
             return dueR(r, -2)
-        #mycursor.close()
+        # mycursor.close()
 
     try:
         mycursor = mydb.cursor()
@@ -97,7 +97,7 @@ def userlogin(mydb, user, password):
             return dueR(r, -102)
         if myresult[0] == 0:
             return dueR(r, -103)
-        #mycursor.close()
+        # mycursor.close()
 
     token = getToken(user)
     try:
@@ -105,7 +105,7 @@ def userlogin(mydb, user, password):
         mycursor.execute("UPDATE user_db SET token=%s WHERE wxid=%s", (token, user))
         mydb.commit()
         row = mycursor.rowcount
-        #mycursor.close()
+        # mycursor.close()
     except:
         r['value'] = -102
     else:
@@ -122,7 +122,7 @@ def regist(mydb, user, password, heading, nick):
         'value': 0
     }
     # 1： 正常、 -1：密码错误、 -101：数据库连接失败、 -102：插入异常（重复注册）、 -103：插入失败
-    if checkPSW(user,password):
+    if checkPSW(user, password):
         return dueR(r, -1)
     # mydb = con()
     if mydb == None:
@@ -140,20 +140,33 @@ def regist(mydb, user, password, heading, nick):
             return dueR(r, -103)
         if myresult[0] > 0:
             return dueR(r, -102)
-        #mycursor.close()
-    
+        # mycursor.close()
+
     try:
         mycursor = mydb.cursor()
-        mycursor.execute("INSERT INTO user_db (wxid, heading, regist_time, nickName) VALUES (%s, %s, %s, %s)", (user, heading, getTimeStamp(), nick))
+        # print(111)
+
+        # modified by zwx
+        token = getToken(user)
+        mycursor.execute("INSERT INTO user_db (wxid, heading, regist_time, token, nickName) VALUES (%s, %s, %s, %s, %s)", (user, heading, getTimeStamp(), token, nick))
+
+        # print(222)
+
         mydb.commit()
-    except:
+
+        # print(333)
+
+    except Exception as e:
+        # print(444)
+        # print(repr(e))
+
         r['value'] = -102
     else:
         if mycursor.rowcount > 0:
             r['value'] = 1
         else:
             r['value'] = -103
-    #mycursor.close()
+    # mycursor.close()
     return jsonify(r)
 
 
@@ -180,7 +193,7 @@ def buyOrder(mydb, token, matchID, stockID, buyNum, stockPrice):
         # 加入订单
         mycursor = mydb.cursor()
         mycursor.execute(
-            "INSERT INTO order_db (order_type, match_id, wxid, creat_time, order_status, stock_id, order_num, price) VALUES ( %s,%s, %s, %s, %s, %s, %s, %s)",
+            "INSERT INTO order_db (order_type, match_id, wxid, creat_time, order_status, stock_id, order_num, price) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s)",
             (1, matchID, user, getTimeStamp(), 1, stockID, buyNum, stockPrice))
         mydb.commit()
         if mycursor.rowcount == 0:
@@ -188,7 +201,6 @@ def buyOrder(mydb, token, matchID, stockID, buyNum, stockPrice):
         return dueR(r, 1)
     except:
         return dueR(r, -102)
-   
 
 
 def sellOrder(mydb, token, matchID, stockID, sellNum, stockPrice):
@@ -221,6 +233,7 @@ def sellOrder(mydb, token, matchID, stockID, sellNum, stockPrice):
         return dueR(r, 1)
     except:
        return dueR(r, -102)
+
 
 def rollBackOrder(mydb, token, rollBackOrder):
     r = {
@@ -259,6 +272,7 @@ def rollBackOrder(mydb, token, rollBackOrder):
     except:
        return dueR(r, -102)
     return dueR(r, -666)
+
 
 def getUserInfo(mydb, token):
     r = {
@@ -520,7 +534,6 @@ def getMatchRank(mydb, token, matchid):
         return dueR(r, -102)
 
 
-
 # 返回用户的基本信息
 def getUserInfo1(mydb,token):
     r = {
@@ -562,8 +575,7 @@ def getUserInfo1(mydb,token):
     return dueR(r, 1)
 
 
-
-#输出用户参加的所有比赛列表
+# 输出用户参加的所有比赛列表
 def getUserInfo2(mydb,token):
     r = {
         'value': 0,
@@ -594,7 +606,7 @@ def getUserInfo2(mydb,token):
     return dueR(r, 1)
 
 
-#输出用户关于一个比赛的持仓信息
+# 输出用户关于一个比赛的持仓信息
 def getUserInfo3(mydb,token,matchid):
     r = {
         'value': 0,
@@ -645,7 +657,8 @@ def getStockInfo(mydb,token, stockid):
     result=stock.getStockInfo(stockid,dm=dm)
 
     r['stockInfo'] = result
-    return  dueR(r, 1)
+    return dueR(r, 1)
+
 
 #用户查询订单
 def getUserOrder(mydb, token,ordertype,startTime,endTime,orderstatus):
@@ -671,39 +684,39 @@ def getUserOrder(mydb, token,ordertype,startTime,endTime,orderstatus):
     for x in result:
         tmp={'id':x[0],'order_type':x[1] ,'create_time':x[3],'order_status':x[4],'stock_id':x[5],'order_num':x[6],'price':x[7],'match_id':x[8]}
         tempList.append(tmp)
-    #找出符合时间的条目
+    # 找出符合时间的条目
     finalList=[]
 
     for x in tempList:
-       if x['create_time']>startTime and x['create_time']<endTime:
+       if x['create_time'] > startTime and x['create_time'] < endTime:
             finalList.append(x)
-    
 
-    #转换成中文
+    # 转换成中文
     trans_type={
-        1:'买入',
-        2:'卖出'
+        1: '买入',
+        2: '卖出'
     }
     for x in finalList:
         key=x['order_type']
         x['order_type']=trans_type[key]
 
     trans_status={
-        1:'进行中',
-        2:'完成',
-        3:'撤回'
+        1: '进行中',
+        2: '完成',
+        3: '撤回'
     }
 
     for x in finalList:
-        key=x['order_status']
-        x['order_status']=trans_status[key]
+        key = x['order_status']
+        x['order_status'] = trans_status[key]
 
-    r['orderInfo']=finalList
+    r['orderInfo'] = finalList
 
     return dueR(r, 1)
 
+
 # 用户查询新闻
-def getStockNews(mydb,token, page):
+def getStockNews(mydb, token, page):
     r = {
         'value': 0
     }
@@ -714,7 +727,7 @@ def getStockNews(mydb,token, page):
     user = checkTOKEN(token, mydb)
     if user == None:
         return dueR(r, -1)
-    
+
     if page == 0:
         page = 1
 
@@ -730,12 +743,9 @@ def getStockNews(mydb,token, page):
         for x in myresult:
             tmp = {'title': x[1], 'content': x[2],'lv': x[3], 'source': x[4],'type': x[5], 'time': x[6]}
             newsInfo.append(tmp)
-        
+
         r['value'] = 1
         r['news'] = newsInfo
         return dueR(r, 1)
     except:
         return dueR(r, -102)
-        
-
-    

@@ -7,8 +7,8 @@ from flask import render_template
 from flask import request
 from app import getaction
 from app import ssql
-
 from app import judge
+
 
 judge.star_judeg()
 
@@ -101,16 +101,15 @@ def to_do(ac):
             return r
 
     elif ac == 'rollBackOrder':
-        #撤销订单
+        # 撤销订单
         try:
-            token = request.form['token']# token
-            orderID = request.form['orderid']# 订单的id
+            token = request.form['token']      # token
+            orderID = request.form['orderid']  # 订单的id
         except:
             pass
         else:
-            r = getaction.rollBackOrder(mydb, token,orderID)
+            r = getaction.rollBackOrder(mydb, token, orderID)
             return r
-        return r
 
     elif ac == 'joinMatch':
         # 报名比赛（）
@@ -194,7 +193,7 @@ def to_do(ac):
         except:
             pass
         else:
-            r = getaction.getUserInfo3(mydb, token,matchID)
+            r = getaction.getUserInfo3(mydb, token, matchID)
             return r
 
     elif ac == 'getStockInfo':
@@ -205,7 +204,7 @@ def to_do(ac):
         except:
             pass
         else:
-            r = getaction.getStockInfo(mydb, token,stockID)
+            r = getaction.getStockInfo(mydb, token, stockID)
             return r
 
     elif ac == 'getUserOrder':
@@ -219,7 +218,7 @@ def to_do(ac):
         except:
             pass
         else:
-            r = getaction.getUserOrder(mydb, token,ordertype,startTime,endTime,orderstatus)
+            r = getaction.getUserOrder(mydb, token, ordertype, startTime, endTime, orderstatus)
             return r
 
     elif ac == 'getNews':
