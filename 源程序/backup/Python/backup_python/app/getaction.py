@@ -58,7 +58,7 @@ def topstock():
     return r.text
 
 
-def login(mydb, user, password):
+def userlogin(mydb, user, password):
     r = {
         'value': 0,
         'token': ''

@@ -13,8 +13,8 @@ from app import judge
 judge.star_judeg()
 
 
-@app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
 def action_index():
     user = {'username': 'visitor'}
     posts = [
@@ -46,7 +46,7 @@ def to_do(ac):
         except:
             pass
         else:
-            r = getaction.login(mydb, user, psw)
+            r = getaction.userlogin(mydb, user, psw)
             return r
 
     elif ac == 'regist':
