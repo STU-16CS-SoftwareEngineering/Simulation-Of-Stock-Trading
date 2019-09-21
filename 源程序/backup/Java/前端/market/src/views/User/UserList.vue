@@ -26,7 +26,7 @@
           <el-table-column prop="nickName" label="昵称"></el-table-column>
           <el-table-column label="注册时间" width="200">
             <template slot-scope="scope">
-              <span>{{transformTimestamp(scope.row.opTime)}}</span>
+              <span>{{transformTimestamp(scope.row.registTime)}}</span>
             </template>
           </el-table-column>
         </el-table>

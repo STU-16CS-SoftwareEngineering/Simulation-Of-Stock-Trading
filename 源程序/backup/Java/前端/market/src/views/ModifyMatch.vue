@@ -89,7 +89,7 @@ export default {
           this.matchInfo.match_rule = tmp.matchRule;
           this.matchInfo.start_time = tmp.startTime;
           this.matchInfo.end_time = tmp.endTime;
-          this.matchInfo.sign_time = tmp.signTtime;
+          this.matchInfo.sign_time = tmp.signTime;
           this.matchInfo.init_money = tmp.initMoney;
           this.timeVal = [];
           this.timeVal.push(new Date(this.matchInfo.start_time*1000));
@@ -101,15 +101,14 @@ export default {
       .catch(err => {
         this.$message(err.message);
       });
+      //console.log(this.matchInfo);
   },
   methods: {
     onSubmit() {
       // 注意秒级时间戳
-      this.matchInfo.start_time = (
-        Date.parse(this.timeVal[0]) / 1000
-      ).toString();
+      this.matchInfo.start_time = (Date.parse(this.timeVal[0]) / 1000).toString();
       this.matchInfo.end_time = (Date.parse(this.timeVal[1]) / 1000).toString();
-      this.matchInfo.sign_time = (Date.parse(new Date()) / 1000).toString();
+      //console.log(this.matchInfo);
       this.axios
         .post("/updateMatch", this.matchInfo)
         .then(res => {

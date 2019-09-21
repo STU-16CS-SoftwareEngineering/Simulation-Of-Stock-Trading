@@ -14,7 +14,7 @@
         <h3>初始金额</h3>
         <p>{{matchInfo.initMoney}}</p>
         <h3>规则</h3>
-        <p>{{matchInfo.matchRule}}</p>
+        <p v-html="matchInfo.matchRule"></p>
       </el-main>
       <el-aside width="200px">
         <el-button @click="modifyMatch" type="info" >修改比赛</el-button>
