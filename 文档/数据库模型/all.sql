@@ -170,7 +170,7 @@ CREATE TABLE `order_db`  (
   `order_status` int(11) NOT NULL COMMENT '订单状态, 1 进行中、2 完成、3 撤销',
   `stock_id` int(11) NOT NULL COMMENT '股票id',
   `order_num` int(11) NOT NULL COMMENT '数量',
-  `price` int(11) NOT NULL COMMENT '价格',
+  `price` double NOT NULL COMMENT '价格',
   `match_id` int(11) NOT NULL COMMENT '比赛id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
