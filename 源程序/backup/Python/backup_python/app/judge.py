@@ -1,7 +1,9 @@
 #! usr/bin/python3
 # -*- coding: utf-8 -*-
 
-
+import requests
+import re
+import datetime
 import time, threading
 import mysql.connector
 from app import stock, ssql
@@ -10,6 +12,7 @@ from app import competitor
 
 
 count = 0
+countNews = 0
 # mydb = None
 
 
@@ -80,17 +83,78 @@ def checkOrder():
                 print('卖出打钱', x[2], x[5], balance)
 
 
+def get_from_gushi_com():
+    # 快讯 来源：m.gushi.com
+    r = requests.get("https://m.gushi.com/zixun/gushikuaixun/")
+    regex = r'<span>(\d+:\d+)<\/span>.+?nofollow\">(.+?)<\/a>'
+    pattern = re.compile(regex)
+    newsData = pattern.findall(r.text)
+    if len(newsData) == 0:
+        return
+    if len(newsData[0]) < 2:
+        return
+    return(newsData[0][1])
+
+
+def get_from_cls_cn():
+    # 电报 来源：cls.cn
+    r = requests.get("https://www.cls.cn/nodeapi/roll/get_update_roll_list?last_time=1568647800&refresh_type=0&rn=20&subscribedColumnIds=&hasFirstVipArticle=1&app=CailianpressWeb&os=web")
+    regex = r'.*content":"(.*)","brief.*'
+    pattern = re.compile(regex)
+    newsData = pattern.findall(r.text)
+    if len(newsData) == 0:
+        return
+    return(newsData[0])
+
+
+def insert_news(mydb, title, msg, lv, source, newstype):
+    mycursor = mydb.cursor()
+    mycursor.execute(
+        "SELECT count(*) FROM news_db WHERE content = %s", (msg,))
+    myresult = mycursor.fetchone()
+    if myresult != None:
+        if(myresult[0] == 0):
+            print("news", msg)
+            mycursor = mydb.cursor()
+            mycursor.execute("INSERT INTO news_db (title, content, lv, source, newstype, sendtime) VALUES (%s, %s, %s, %s, %s, %s)",
+                             (title, msg, lv, source, newstype, int(time.time())))
+            mydb.commit()
+
+
+def checkNews():
+    # global mydb
+    mydbcon = ssql.SQLink()
+    mydb = mydbcon.get_db()
+    global countNews
+
+    cls_news = get_from_cls_cn()
+    insert_news(mydb, cls_news, cls_news, 1, "财联社", "电报")
+    gushi_news = get_from_gushi_com()
+    insert_news(mydb, gushi_news, gushi_news, 1, "股市网", "快讯")
+
+    countNews += 1
+    print("news heart beat 新闻", countNews, ">", time.time())
+
+
 def judgeloop():  # 判官
     while True:
         checkOrder()
         time.sleep(30)
 
 
+def newsloop():  # 爬虫
+    while True:
+        checkNews()
+        time.sleep(120)
+
 def star_judeg():  # 开始线程
     # global mydb
     # mydb = dbcon
+    print("beat start")
     t = threading.Thread(target=judgeloop, name='Judge')
     t.start()
+    t2 = threading.Thread(target=newsloop, name='News')
+    t2.start()
 
 # checkOrder()
 # print(stock.getStockInfo('000001'))
